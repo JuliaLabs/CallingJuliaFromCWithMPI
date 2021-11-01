@@ -7,4 +7,5 @@ PackageCompiler.create_library(".", "bundle";
                                 precompile_statements_file=[joinpath(@__DIR__, "additional_precompile.jl")],
                                 incremental=false,
                                 filter_stdlibs=true,
-                                include_lazy_artifacts=false)
+                                include_lazy_artifacts=false,
+                                include_transitive_dependencies=false)

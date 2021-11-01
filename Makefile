@@ -9,7 +9,7 @@ CFLAGS   += $(shell $(JL_SHARE)/julia-config.jl --cflags)
 # LDLIBS   += $(shell $(JL_SHARE)/julia-config.jl --ldlibs)
 
 # JL_PRIVATE_LIBDIR = $(shell julia -e 'print(joinpath(Sys.BINDIR, Base.PRIVATE_LIBDIR))')
-LIBDIR := $(abspath bundle/lib)
+LIBDIR := bundle/lib
 LDFLAGS += -L$(LIBDIR) -L$(LIBDIR)/julia
 LDLIBS += -ljulia -ljulia-internal -ldiffusion
 CFLAGS += -I$(abspath bundle/include) -I. 
