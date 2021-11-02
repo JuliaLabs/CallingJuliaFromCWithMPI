@@ -3,4 +3,21 @@
 For a fully featured version that pulls in CUDA see https://github.com/omlins/libdiffusion
 
 ## Building
-`CC=mpicc PATH=~/builds/julia-1.6.3/bin:$PATH make`
+
+```
+julia --project=. -e 'using Pkg; Pkg.instantiate()'
+make
+```
+
+## Running
+
+### Standalone
+```
+./main
+```
+
+### MPI
+
+```
+./mpiexecjl --project=. main
+```

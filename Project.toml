@@ -7,6 +7,7 @@ version = "0.1.0"
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 ImplicitGlobalGrid = "4d7a3746-15be-11ea-1130-334b0c4f5fa0"
 MPI = "da04e1cc-30fd-572f-bb4f-1f8673147195"
+MPICH_jll = "7cb0a576-ebde-5e09-9194-50597f1243b4"
 Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
 
 [compat]

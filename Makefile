@@ -1,6 +1,6 @@
 OS := $(shell uname)
 DLEXT := $(shell julia -e 'using Libdl; print(Libdl.dlext)')
-MPI_DIR := $(shell julia -e "using MPICH_jll; print(MPICH_jll.artifact_dir)")
+MPI_DIR := $(shell julia --project=. -e "using MPICH_jll; print(MPICH_jll.artifact_dir)")
 CC := $(MPI_DIR)/bin/mpicc
 
 JULIA := julia
@@ -28,7 +28,7 @@ ifeq ($(OS), WINNT)
   MAIN := $(MAIN).exe
 endif
 
-.DEFAULT_GOAL := main
+.DEFAULT_GOAL := main mpiexecjl
 
 $(LIBDIR)/libdiffusion.$(DLEXT): build/build.jl src/Diffusion.jl build/generate_precompile.jl build/additional_precompile.jl
 	JULIA_CUDA_USE_BINARYBUILDER=false $(JULIA) --startup-file=no --project=. -e 'using Pkg; Pkg.instantiate()'
@@ -41,6 +41,9 @@ main.o: main.c
 
 $(MAIN): main.o $(LIBDIR)/libdiffusion.$(DLEXT)
 	$(CC) -o $@ $< $(LDFLAGS) $(LDLIBS) $(WLARGS)
+
+mpiexecjl: Manifest.toml
+	$(JULIA) --project=. -e 'using MPI; MPI.install_mpiexecjl(destdir=".")'
 
 .PHONY: clean
 clean:
