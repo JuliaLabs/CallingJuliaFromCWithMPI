@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
   // Numerics
   size_t nx        = 64;      // Number of grid points in x dimension
   size_t ny        = 64;      // Number of grid points in y dimension
-  size_t timesteps = 1000;    // Number of time steps
+  size_t timesteps = 100;    // Number of time steps
 
   double *T = (double *)malloc(nx*ny*sizeof(double));
 
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
   // Initialize the heat capacity field
   for (int ix=0; ix<nx; ix++){
     for (int iy=0; iy<ny; iy++){
-      T[iy*nx+ix] = 0.1;
+      T[iy*nx+ix] = 1.0;
     }
   };
 

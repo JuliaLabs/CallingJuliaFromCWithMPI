@@ -26,15 +26,15 @@ function diffusion(T, timesteps, comm)
 
     if me == 0
         node = Node(T_v)
-        fig = heatmap(node)
+        fig = heatmap(node, colorrange = (0.0, 2.0))
         video = VideoStream(fig, framerate=3)
     end
 
     for t in 1:timesteps
-        interior(T) .-= ((north(T) .+ south(T) .+ east(T) .+ west(T)) ./ 4.0)
+        interior(T) .-= interior(T) .- ((north(T) .+ south(T) .+ east(T) .+ west(T)) ./ 4.0)
         update_halo!(T)
 
-        if t % 10 == 0
+        if t % 2 == 0
             gather!(Array(interior(T)), T_v)
             if me == 0
                 node[] = T_v
@@ -50,7 +50,7 @@ end
 Base.@ccallable function julia_diffusion(T_ptr::Ptr{Float64}, timesteps::Cint, nx::Cint, ny::Cint, comm_c::MPI.MPI_Comm)::Cint
     try
         comm = MPI.Comm_dup(MPI.Comm(comm_c))
-        T    = unsafe_wrap(Array, T_ptr, (Int64(nx), Int64(ny)))
+        T    = unsafe_wrap(Array, T_ptr, (Int64(nx), Int64(ny)), own=false)
         diffusion(T, timesteps, comm)
     catch
         Base.invokelatest(Base.display_error, Base.catch_stack())
